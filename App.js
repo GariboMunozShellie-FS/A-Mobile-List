@@ -7,6 +7,7 @@ import * as Network from 'expo-network'
 
 import Details from "./Details";
 import Categories from "./Categories";
+import Singles from "./Singles";
 
 import ListContainer from './components/ListContainer';
 
@@ -24,7 +25,7 @@ function HomeScreen({navigation}) {
     <SafeAreaView style={styles.container}>
       <Button title='go to details' onPress={() => navigation.navigate('Details')} />
       <Text style={styles.largerHeading}>PLAYLIST:</Text>
-      <ListContainer />
+      <ListContainer navigation={navigation}/>
       <StatusBar style="auto" />
       <br/>
       <Details/>
@@ -42,6 +43,7 @@ export default function App() {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Details" component={Details} />
         <Stack.Screen name="Categories" component={Categories} />
+        <Stack.Screen name="Singles" component={Singles} />
       </Stack.Navigator>
     </NavigationContainer>
   );

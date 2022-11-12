@@ -15,6 +15,10 @@ export default function Details({navigation}) {
         artist: '',
         album: ''
     })
+
+    const [title, setTitle] = useState('')
+    const [artist, setArtist] = useState('')
+    const [album, setAlbum] = useState('')
         
     let ignore = false;
         useEffect(()=> {
@@ -34,7 +38,7 @@ export default function Details({navigation}) {
         await fetch(URL)
                 .then(res => res.json())
                 .then(data => {
-                console.log(data)
+                //console.log(data)
                 setSongs(data)
                 })
         }
@@ -46,6 +50,16 @@ export default function Details({navigation}) {
         }
     }
 
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        setValues({
+            title,
+            artist,
+            album
+        });
+        createSong();
+    }
+
     const createSong = async () => {
         try{
         await fetch(URL, {
@@ -53,13 +67,11 @@ export default function Details({navigation}) {
             headers: {
             'Content-Type': 'application/json'
             },
-            body: JSON.stringify(values)
+            body: JSON.stringify(values),
         })
-                .then(data => console.log({data}))
-        
-        //setValues(data),
-        //getSongs())
-        
+            .then(() => 
+                console.log(body))
+                getSongs()
         }
         catch (error){
         setError(error.message || "Unexpected Error")
@@ -68,48 +80,31 @@ export default function Details({navigation}) {
         setLoading(false)
         }
     }
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        createSong();
-    }
-
-    const inputChange = (event) => {
-        //event.persist();
-        setValues((values) => ({
-        ...values,
-        [event.target.title]: event.target.value
-        }))
-    }
+    
 
     return (
         <SafeAreaView >
             <Button title='go to home' onPress={() => navigation.navigate('Home')} />
             <TextInput
-                //defaultValue={values.title}
-                value={values.title}
-                onChange={inputChange}
+                onChangeText={text => setTitle(text)}
+                value={title}
                 placeholder='title'
-                name= 'title'
+                name='title'
             />
             <TextInput
-                //defaultValue={values.artist}
-                value={values.artist}
-                onChange={inputChange}
+                onChangeText={text => setArtist(text)}
+                value={artist}
                 placeholder='artist'
-                name= 'artist'
+                name='artist'
             />
             <TextInput
-                //defaultValue={values.album}
-                value={values.album}
-                onChangeText={inputChange}
-                onChange={inputChange}
+                onChangeText={text => setAlbum(text)}
+                value={album}
                 placeholder='album'
-                name= 'album'
+                name='album'
             />
-            <TouchableOpacity onPress={handleSubmit} >
-                <Text>Submit</Text>
-            </TouchableOpacity>
+            <Button title="Submit" onPress={handleSubmit} />
+                
         </SafeAreaView>
     );
 }

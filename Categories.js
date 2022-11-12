@@ -93,7 +93,7 @@ export default function Singles({navigation}) {
     }
 
     const inputChange = (event) => {
-        event.persist();
+        //event.persist();
         setValues((values) => ({
         ...values,
         [event.target.title]: event.target.value
@@ -126,19 +126,19 @@ export default function Singles({navigation}) {
             <View>
                 <TextInput
                     name="title"
-                    value={values.title}
+                    value={title}
                     placeholder="Title"
                     onChange={inputChange}
                 />
                 <TextInput
                     name="title"
-                    //value={values.artist}
+                    value={artist}
                     placeholder="Artist"
                     onChange={inputChange}
                 />
                 <TextInput
                     name="title"
-                    //value={values.album}
+                    value={album}
                     placeholder="Album"
                     onChange={inputChange}
                 />

@@ -22,7 +22,6 @@ export default function ListContainer({navigation}) {
       }
       return () => {
         ignore = true
-        getSongs();
       }
     }, [])
   
@@ -32,8 +31,8 @@ export default function ListContainer({navigation}) {
       await fetch(URL)
               .then(res => res.json())
               .then(data => {
+                console.log({data});
                 setSongs(data)
-                //console.log(songs);
               })
     }
     catch (error){
@@ -45,28 +44,25 @@ export default function ListContainer({navigation}) {
   }
 
   const renderItem = (item) => {
-    console.log("item: ", item)
+    //console.log("item: ", item)
     //console.log("title: ", item.item.title)
     return (
         <ListItem>
           <Button title={item.item.title} 
             onPress={() => 
               navigation.navigate('Singles', {
-              params: item.item._id}
+              id: item.item._id}
             )} />
         </ListItem>
-      
     )
   }
 
   return (
       
-    <SafeAreaView>
       <FlatList
       data={songs}
       renderItem={renderItem}
       keyExtractor={item => item._id}
       />
-    </SafeAreaView>
   );
 }
