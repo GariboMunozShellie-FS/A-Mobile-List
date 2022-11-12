@@ -52,7 +52,7 @@ export default function Singles({route, navigation}) {
 
     const deleteSong = async () => {
         try{
-            await fetch(`${API_base}/songs/${id}`, {
+            await fetch(`${URL}/${id}`, {
                 method:'DELETE'
             })
                 .then(res => res.json())
