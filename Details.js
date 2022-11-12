@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView,FlatList, Switch, StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { SafeAreaView,FlatList, Switch, StyleSheet, Text, View, Button, TextInput,TouchableOpacity } from 'react-native';
+import ListItem from "./components/ListItem";
 
 import styles from "./AppStyles";
 
 export default function Details({navigation}) {
     const URL = `https://curd-api-deployment.herokuapp.com/api/v1/songs`
-
     const [songs, setSongs] = useState(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
@@ -15,7 +15,7 @@ export default function Details({navigation}) {
         artist: '',
         album: ''
     })
-    
+        
     let ignore = false;
         useEffect(()=> {
         
@@ -48,20 +48,24 @@ export default function Details({navigation}) {
 
     const createSong = async () => {
         try{
-            await fetch(URL, {
-                method:'POST',
-                headers: {
-                'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(values)
-            })
-            .then(() => getSongs())
+        await fetch(URL, {
+            method:'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(values)
+        })
+                .then(data => console.log({data}))
+        
+        //setValues(data),
+        //getSongs())
+        
         }
-            catch (error){
-            setError(error.message || "Unexpected Error")
+        catch (error){
+        setError(error.message || "Unexpected Error")
         }
-            finally{
-            setLoading(false)
+        finally{
+        setLoading(false)
         }
     }
 
@@ -71,7 +75,7 @@ export default function Details({navigation}) {
     }
 
     const inputChange = (event) => {
-        event.persist();
+        //event.persist();
         setValues((values) => ({
         ...values,
         [event.target.title]: event.target.value
@@ -80,29 +84,32 @@ export default function Details({navigation}) {
 
     return (
         <SafeAreaView >
-            <Button title='go to Home' onPress={() => navigation.navigate('Home')} />
-            <View>
-                <TextInput
-                    name="title"
-                    value={values.title}
-                    placeholder="Title"
-                    onChange={inputChange}
-                />
-                <TextInput
-                    name="title"
-                    //value={values.artist}
-                    placeholder="Artist"
-                    onChange={inputChange}
-                />
-                <TextInput
-                    name="title"
-                    //value={values.album}
-                    placeholder="Album"
-                    onChange={inputChange}
-                />
-            </View>
-            <Button title='Submit' onPress={handleSubmit} />
+            <Button title='go to home' onPress={() => navigation.navigate('Home')} />
+            <TextInput
+                //defaultValue={values.title}
+                value={values.title}
+                onChange={inputChange}
+                placeholder='title'
+                name= 'title'
+            />
+            <TextInput
+                //defaultValue={values.artist}
+                value={values.artist}
+                onChange={inputChange}
+                placeholder='artist'
+                name= 'artist'
+            />
+            <TextInput
+                //defaultValue={values.album}
+                value={values.album}
+                onChangeText={inputChange}
+                onChange={inputChange}
+                placeholder='album'
+                name= 'album'
+            />
+            <TouchableOpacity onPress={handleSubmit} >
+                <Text>Submit</Text>
+            </TouchableOpacity>
         </SafeAreaView>
     );
 }
-

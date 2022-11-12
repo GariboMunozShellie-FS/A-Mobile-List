@@ -1,9 +1,6 @@
 import React, {useEffect, useState} from "react";
-import { StyleSheet, FlatList, View, Button } from 'react-native';
+import { StyleSheet, FlatList, View, Button, SafeAreaView } from 'react-native';
 import ListItem from './ListItem';
-
-import IndividualSong from "../IndividualSong";
-import UselessTextInput from "./UselessTextInput";
 
 export default function ListContainer({navigation}) {
 
@@ -48,21 +45,28 @@ export default function ListContainer({navigation}) {
   }
 
   const renderItem = (item) => {
-    //console.log("item: ", item)
+    console.log("item: ", item)
     //console.log("title: ", item.item.title)
     return (
         <ListItem>
-          <Button title={item.item.title} onPress={() => navigation.navigate('Singles')} />
+          <Button title={item.item.title} 
+            onPress={() => 
+              navigation.navigate('Singles', {
+              params: item.item._id}
+            )} />
         </ListItem>
       
     )
   }
 
   return (
+      
+    <SafeAreaView>
       <FlatList
       data={songs}
       renderItem={renderItem}
       keyExtractor={item => item._id}
-    />
+      />
+    </SafeAreaView>
   );
 }

@@ -8,6 +8,7 @@ import * as Network from 'expo-network'
 import Details from "./Details";
 import Categories from "./Categories";
 
+import Heading from './components/Heading';
 import ListContainer from './components/ListContainer';
 
 import styles from "./AppStyles";
@@ -22,12 +23,23 @@ function HomeScreen({navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={styles.largerHeading}>This App</Text>
+      <Heading level="3" >This is the Heading</Heading>
+      {
+        Platform.OS === 'ios'
+        ? <Text>I am IOS</Text>
+        : <Text>I am NOT IOS</Text>
+      }
       <Button title='go to details' onPress={() => navigation.navigate('Details')} />
-      <Text style={styles.largerHeading}>PLAYLIST:</Text>
       <ListContainer />
+      <Switch
+        trackColor={{ false: "#767577", true: "#81b0ff" }}
+        thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={toggleSwitch}
+        value={isEnabled}
+      />
       <StatusBar style="auto" />
-      <br/>
-      <Details/>
     </SafeAreaView>
   );
 }
@@ -35,6 +47,15 @@ function HomeScreen({navigation}) {
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+
+  //const [songs, setSongs] = useState(null)
+  //fetch(`https://curd-api-deployment.herokuapp.com/api/v1/songs`)
+  //  .then(res => res.json())
+  //  .then(data => {
+  //    
+  //    setSongs(data)
+  //    //console.log(data)
+  //  });
 
   return (
     <NavigationContainer>
