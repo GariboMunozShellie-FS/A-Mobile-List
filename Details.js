@@ -52,12 +52,12 @@ export default function Details({navigation}) {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setValues({
+        await setValues({
             title,
             artist,
             album
         });
-        await createSong();
+        createSong();
     }
 
     const createSong = async () => {

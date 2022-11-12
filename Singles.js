@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, Switch, StyleSheet, Text, View, Button } from 'react-native';
+import { SafeAreaView, Switch, StyleSheet, Text, View, Button, TextInput } from 'react-native';
 
 import styles from "./AppStyles";
 
@@ -17,6 +17,10 @@ export default function Singles({route, navigation}) {
         artist: '',
         album: ''
     })
+
+    const [title, setTitle] = useState('')
+    const [artist, setArtist] = useState('')
+    const [album, setAlbum] = useState('')
 
     let ignore = false;
         useEffect(()=> {
@@ -73,6 +77,38 @@ export default function Singles({route, navigation}) {
         }
     }
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        await setValues({
+            title,
+            artist,
+            album
+        });
+        updateSong();
+    }
+
+    const updateSong = async () => {
+    try{
+        await fetch(`${URL}/${id}`, {
+            method:'PATCH',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(values)
+        })
+                .then(res => res.json())
+                .then(data => {
+                console.log({data})
+                })
+        }
+        catch (error){
+        setError(error.message || "Unexpected Error")
+        }
+        finally{
+        setLoading(false)
+        }
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <Button title='go to Home' onPress={() => navigation.navigate('Home')} />
@@ -81,6 +117,25 @@ export default function Singles({route, navigation}) {
             <Text style={styles.largerHeading}>{values.artist}</Text>
             <Text style={styles.largerHeading}>{values.album}</Text>
             <Button title='Delete' onPress={deleteSong} />
+            <TextInput
+                onChangeText={text => setTitle(text)}
+                value={title}
+                placeholder={values.title}
+                name='title'
+            />
+            <TextInput
+                onChangeText={text => setArtist(text)}
+                value={artist}
+                placeholder={values.title}
+                name='artist'
+            />
+            <TextInput
+                onChangeText={text => setAlbum(text)}
+                value={album}
+                placeholder={values.title}
+                name='album'
+            />
+            <Button title="Submit" onPress={handleSubmit} />
         </SafeAreaView>
     );
 }
