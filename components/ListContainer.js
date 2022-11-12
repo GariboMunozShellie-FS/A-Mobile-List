@@ -1,13 +1,22 @@
 import React, {useEffect, useState} from "react";
-import { StyleSheet, FlatList, View } from 'react-native';
+import { StyleSheet, FlatList, View, Button } from 'react-native';
 import ListItem from './ListItem';
 
-export default function Heading() {
+import IndividualSong from "../IndividualSong";
+import UselessTextInput from "./UselessTextInput";
+
+export default function ListContainer({navigation}) {
 
   const URL = `https://curd-api-deployment.herokuapp.com/api/v1/songs`
   const [songs, setSongs] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+
+  const [values, setValues] = useState({
+    title: '',
+    artist: '',
+    album: ''
+  })
 
   let ignore = false;
     useEffect(()=> {
@@ -26,8 +35,8 @@ export default function Heading() {
       await fetch(URL)
               .then(res => res.json())
               .then(data => {
-                setSongs({data})
-                console.log(songs);
+                setSongs(data)
+                //console.log(songs);
               })
     }
     catch (error){
@@ -37,13 +46,20 @@ export default function Heading() {
       setLoading(false)
     }
   }
-  
-  const renderItem = ({item}) => (
-    <ListItem>{item.title}</ListItem>
-  );
+
+  const renderItem = (item) => {
+    //console.log("item: ", item)
+    //console.log("title: ", item.item.title)
+    return (
+        <ListItem>
+          <Button title={item.item.title} onPress={() => navigation.navigate('Singles')} />
+        </ListItem>
+      
+    )
+  }
 
   return (
-    <FlatList
+      <FlatList
       data={songs}
       renderItem={renderItem}
       keyExtractor={item => item._id}
