@@ -50,14 +50,14 @@ export default function Details({navigation}) {
         }
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         setValues({
             title,
             artist,
             album
         });
-        createSong();
+        await createSong();
     }
 
     const createSong = async () => {

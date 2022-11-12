@@ -50,6 +50,10 @@ export default function Singles({route, navigation}) {
         }
     }
 
+    const refreshPage = () => {
+        window.location.reload(false);
+    }
+
     const deleteSong = async () => {
         try{
             await fetch(`${URL}/${id}`, {
@@ -58,6 +62,8 @@ export default function Singles({route, navigation}) {
                 .then(res => res.json())
                 .then(data => { setSongs(data)})
                 .then(()=> getSongs())
+                .then(()=> refreshPage())
+                
         }
         catch (error){
             setError(error.message || "Unexpected Error")
