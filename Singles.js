@@ -111,31 +111,42 @@ export default function Singles({route, navigation}) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Button title='go to Home' onPress={() => navigation.navigate('Home')} />
-            <Button title='go to details' onPress={() => navigation.navigate('Details')} />
-            <Text style={styles.largerHeading}>{values.title}</Text>
-            <Text style={styles.largerHeading}>{values.artist}</Text>
-            <Text style={styles.largerHeading}>{values.album}</Text>
-            <Button title='Delete' onPress={deleteSong} />
-            <TextInput
-                onChangeText={text => setTitle(text)}
-                value={title}
-                placeholder={values.title}
-                name='title'
-            />
-            <TextInput
-                onChangeText={text => setArtist(text)}
-                value={artist}
-                placeholder={values.title}
-                name='artist'
-            />
-            <TextInput
-                onChangeText={text => setAlbum(text)}
-                value={album}
-                placeholder={values.title}
-                name='album'
-            />
-            <Button title="Submit" onPress={handleSubmit} />
+            <View style={styles.header}>
+                <Text style={styles.formTitle}>Title: {values.title}</Text>
+                <Text style={styles.formTitle}>Artist: {values.artist}</Text>
+                <Text style={styles.formTitle}>Album: {values.album}</Text>
+            <View style={styles.button}>
+                <Button title='Create New Item' onPress={() => navigation.navigate('Details')} />
+                <Button title='Delete This Song' onPress={deleteSong} />
+            </View>
+            </View>
+            <View style={styles.form} >
+                <Text style={styles.title}>Update Title:</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={text => setTitle(text)}
+                    value={title}
+                    placeholder='title'
+                    name='title'
+                />
+                <Text style={styles.title}>Update Artist:</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={text => setArtist(text)}
+                    value={artist}
+                    placeholder='artist'
+                    name='artist'
+                />
+                <Text style={styles.title}>Update Album:</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={text => setAlbum(text)}
+                    value={album}
+                    placeholder='album'
+                    name='album'
+                />
+                <Button title="Submit" onPress={handleSubmit} />
+            </View> 
         </SafeAreaView>
     );
 }

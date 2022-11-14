@@ -2,6 +2,8 @@ import React, {useEffect, useState} from "react";
 import { StyleSheet, FlatList, View, Button, SafeAreaView } from 'react-native';
 import ListItem from './ListItem';
 
+import styles from "../AppStyles";
+
 export default function ListContainer({navigation}) {
 
   const URL = `https://curd-api-deployment.herokuapp.com/api/v1/songs`

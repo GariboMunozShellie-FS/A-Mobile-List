@@ -32,6 +32,10 @@ export default function Details({navigation}) {
         }
     },[])
 
+    const refreshPage = () => {
+        window.location.reload(false);
+    }
+
     const getSongs = async () => {
         setLoading(true)
         try{
@@ -69,9 +73,9 @@ export default function Details({navigation}) {
             },
             body: JSON.stringify(values),
         })
-            .then(() => 
-                console.log(body))
-                getSongs()
+            .then(() => console.log(body))
+            .then(()=> getSongs())
+            .then(()=> refreshPage())
         }
         catch (error){
         setError(error.message || "Unexpected Error")
@@ -83,28 +87,36 @@ export default function Details({navigation}) {
     
 
     return (
-        <SafeAreaView >
-            <Button title='go to home' onPress={() => navigation.navigate('Home')} />
-            <TextInput
-                onChangeText={text => setTitle(text)}
-                value={title}
-                placeholder='title'
-                name='title'
-            />
-            <TextInput
-                onChangeText={text => setArtist(text)}
-                value={artist}
-                placeholder='artist'
-                name='artist'
-            />
-            <TextInput
-                onChangeText={text => setAlbum(text)}
-                value={album}
-                placeholder='album'
-                name='album'
-            />
-            <Button title="Submit" onPress={handleSubmit} />
-                
+        <SafeAreaView style={styles.container}>
+            <Button title='Home' onPress={() => navigation.navigate('Home')} />
+            <Text style={styles.largerHeading}>Create New Song:</Text>
+            <View style={styles.form} >
+                <Text style={styles.title}>Title:</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={text => setTitle(text)}
+                    value={title}
+                    placeholder='title'
+                    name='title'
+                />
+                <Text style={styles.title}>Artist:</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={text => setArtist(text)}
+                    value={artist}
+                    placeholder='artist'
+                    name='artist'
+                />
+                <Text style={styles.title}>Album:</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={text => setAlbum(text)}
+                    value={album}
+                    placeholder='album'
+                    name='album'
+                />
+                <Button title="Submit" onPress={handleSubmit} />
+            </View>    
         </SafeAreaView>
     );
 }
